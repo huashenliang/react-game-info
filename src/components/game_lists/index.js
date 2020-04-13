@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { connect } from 'react-redux';
+import { connect } from './node_modules/react-redux';
 import { getGameList } from '../../actions/game_actions';
 
 class Game_Lists extends Component {

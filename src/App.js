@@ -1,16 +1,25 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {Route, Redirect, Switch } from 'react-router-dom';
+import ScrollToTop from './components/Scroll_To_Top';
 
-import Game_List from './components/game_lists'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import Home from './components/Home'
+
 
 class App extends Component {
   state = {  }
   render() { 
     return (
-      <div>
-        <Game_List />
-      </div>
+      <ScrollToTop>
+        <div className="App">
+          <Route path="/" exact component={Home} />
+        </div>
+      </ScrollToTop>
+        
+
     );
   }
 }

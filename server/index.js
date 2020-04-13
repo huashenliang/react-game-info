@@ -4,13 +4,16 @@ const cors = require('cors')
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const axios = require('axios');
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false }));
 app.use(bodyParser.json());
 
-async function dataSearch(limit) {
+
+// ============== Fecthing games =====================================================
+async function fetchGames(limit) {
   const response = await igdb(API_KEY)
         .fields(['name', 'genres', 'popularity'])
         .limit(parseInt(limit))
@@ -21,23 +24,44 @@ async function dataSearch(limit) {
   return response.data
 }
 
-// An api endpoint that returns a short list of items
 app.get('/api/getGames', async (req,res) => {
 
     let limit = req.query.limit ? parseInt(req.query.limit) : 1;
 
     console.log(limit)
-    var data = await dataSearch(limit)
+    var data = await fetchGames(limit)
     if(data){
       res.send(data);
     }
     console.log('Sent list of items');
 });
 
-// Handles any requests that don't match the ones above
-// app.get('*', (req,res) =>{
-//     res.sendFile(path.join(__dirname+'/client/build/index.html'));
-// });
+
+// ============== Fecthing Genres =====================================================
+async function fetchGenres() {
+  const response = await igdb(API_KEY)
+        .fields(['created_at', 'name', 'slug'])
+        .limit(30)
+        .request('/genres');
+
+  return response.data
+}
+
+app.get('/api/getGenres', async (req,res) => {
+  var data = await fetchGenres()
+  console.log(data)
+  if(data){
+    res.send(data);
+  }
+  console.log('Sent list of items');
+});
+
+
+
+
+
+
+
 
 const port = process.env.PORT || 5000;
 app.listen(port);
