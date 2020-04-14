@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {
     GET_GAME_LIST,
+    GET_GAME_SLIDER
 } from './types';
 
 
@@ -21,6 +22,25 @@ export function getGameList(limit){
 
     return {
         type: GET_GAME_LIST,
+        payload: request
+    }
+}
+
+
+export function getGameSlider(name){
+
+    const request = axios.get(`${API_URL}/searchGame/?name=${name}`, )
+    .then(response=> {
+        if(response.status == 200){
+            return response.data[0]
+        }else{
+            return null
+        }
+        
+    })
+
+    return {
+        type: GET_GAME_SLIDER,
         payload: request
     }
 }
