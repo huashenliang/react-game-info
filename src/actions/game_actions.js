@@ -27,20 +27,22 @@ export function getGameList(limit){
 }
 
 
-export function getGameSlider(name){
+export  async function getGameSlider(name){
 
-    const request = axios.get(`${API_URL}/searchGame/?name=${name}`, )
-    .then(response=> {
+    const promises = name.map( async name => {
+        const response = await axios.get(`${API_URL}/searchGame/?name=${name}`)
         if(response.status == 200){
             return response.data[0]
         }else{
             return null
         }
-        
     })
+    
+    const results = await Promise.all(promises)
 
     return {
         type: GET_GAME_SLIDER,
-        payload: request
+        payload: results
     }
+
 }

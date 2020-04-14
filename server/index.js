@@ -80,7 +80,7 @@ app.get('/api/getTrending', async (req,res) => {
 async function fetachGameScreenshot(ID) {
   const response = await igdb(API_KEY)
         .fields(['image_id', 'url', 'width'])
-        .where(`game = 11169`)
+        .where(`game = ${ID}`)
         .request('/screenshots');
   return response.data
 }
@@ -89,12 +89,14 @@ app.get('/api/getGameScreenshot', async (req,res) => {
   var data = await fetachGameScreenshot()
 
   if(data){
-    console.log(data)
-
     res.send(data);
   }
+
   console.log('Sent list of items');
 });
+
+
+
 
 // ============== Search Game by Name =====================================================
 async function fetachGameByName(name) {
@@ -112,10 +114,6 @@ app.get('/api/searchGame', async (req,res) => {
   var data = await fetachGameByName(name)
 
   if(data){
-
-
-
-
     res.send(data);
   }
   console.log('Sent list of items');
