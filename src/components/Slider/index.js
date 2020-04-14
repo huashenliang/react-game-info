@@ -2,8 +2,9 @@ import React, { Component} from 'react';
 import {Carousel} from 'react-bootstrap';
 import { getGameSlider } from "../../actions/game_actions";
 import {connect} from 'react-redux';
+import axios from 'axios';
 
-
+const API_URL = 'http://localhost:5000/api';
 
 class Slider extends Component {
     state = { 
@@ -19,8 +20,8 @@ class Slider extends Component {
         return ( 
             <Carousel >
            {this.props.games_slider !== undefined 
-                ? this.props.games_slider.map(i => 
-            
+                ? this.props.games_slider.map(i => {
+                    return(
                     <Carousel.Item key={i.name} >
                         <img
                         className="d-block w-100"
@@ -32,8 +33,8 @@ class Slider extends Component {
                         <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                         </Carousel.Caption>
                     </Carousel.Item>
-                    
-            )
+                    )
+            })
             : null} 
             </Carousel>
          );

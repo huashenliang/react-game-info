@@ -1,5 +1,6 @@
 const igdb = require('igdb-api-node').default;
 const API_KEY = "fe9eb0de0102be7f3022ce3bb09802fc";
+const API_URL = 'http://localhost:5000/api';
 const cors = require('cors')
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -85,8 +86,10 @@ async function fetachGameScreenshot(ID) {
   return response.data
 }
 
-app.get('/api/getGameScreenshot', async (req,res) => {
-  var data = await fetachGameScreenshot()
+app.get('/api/getGameScreenshot/', async (req,res) => {
+
+  let id = req.query.id ? parseInt(req.query.id) : 0;
+  var data = await fetachGameScreenshot(id)
 
   if(data){
     res.send(data);
@@ -104,7 +107,21 @@ async function fetachGameByName(name) {
         .fields(['name', 'popularity', 'screenshots', 'release_dates'])
         .search(name)
         .request('/games');
+  
+  const promises = response.data.map(async data =>{
 
+    if(data.screenshots){
+      id = data.id
+      const res = await axios.get(`${API_URL}/getGameScreenshot/?id=${id}`)
+      return res.data[res.data.length-1].image_id
+    }else{
+      return " "
+    }
+  } )
+
+  const results = await Promise.all(promises)
+  console.log(results)
+  //return the modified data with image url 
   return response.data
 }
 
