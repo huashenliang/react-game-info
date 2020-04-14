@@ -10,6 +10,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.text());
 
 
 // ============== Fecthing games =====================================================
@@ -28,7 +29,6 @@ app.get('/api/getGames', async (req,res) => {
 
     let limit = req.query.limit ? parseInt(req.query.limit) : 1;
 
-    console.log(limit)
     var data = await fetchGames(limit)
     if(data){
       res.send(data);
@@ -49,7 +49,6 @@ async function fetchGenres() {
 
 app.get('/api/getGenres', async (req,res) => {
   var data = await fetchGenres()
-  console.log(data)
   if(data){
     res.send(data);
   }
@@ -57,9 +56,70 @@ app.get('/api/getGenres', async (req,res) => {
 });
 
 
+// ============== Fecthing 3 Trending Games for Slider =====================================================
+async function fetchTredning() {
+  const response = await igdb(API_KEY)
+        .fields(['name', 'popularity', 'screenshots', 'release_dates'])
+        .sort('release_dates', 'desc')
+        .limit(3)
+        .request('/games');
+
+  return response.data
+}
+
+app.get('/api/getTrending', async (req,res) => {
+  var data = await fetchTredning()
+
+  if(data){
+    res.send(data);
+  }
+  console.log('Sent list of items');
+});
+
+// ============== Get Game Screenshot by ID =====================================================
+async function fetachGameScreenshot(ID) {
+  const response = await igdb(API_KEY)
+        .fields(['image_id', 'url', 'width'])
+        .where(`game = 11169`)
+        .request('/screenshots');
+  return response.data
+}
+
+app.get('/api/getGameScreenshot', async (req,res) => {
+  var data = await fetachGameScreenshot()
+
+  if(data){
+    console.log(data)
+
+    res.send(data);
+  }
+  console.log('Sent list of items');
+});
+
+// ============== Search Game by Name =====================================================
+async function fetachGameByName(name) {
+  const response = await igdb(API_KEY)
+        .fields(['name', 'popularity', 'screenshots', 'release_dates'])
+        .search(name)
+        .request('/games');
+
+  return response.data
+}
+
+app.get('/api/searchGame', async (req,res) => {
+
+  let name = req.query.name ? req.query.name : '';
+  var data = await fetachGameByName(name)
+
+  if(data){
 
 
 
+
+    res.send(data);
+  }
+  console.log('Sent list of items');
+});
 
 
 
