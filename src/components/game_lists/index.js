@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Card, Button} from 'react-bootstrap'
 import { connect } from 'react-redux';
-import { getGameList } from '../../actions/game_actions';
+import { getPCTrandingGame } from '../../actions/game_actions';
 
 import Carousel from 'react-multi-carousel';
 import WithStyles from 'react-multi-carousel'
@@ -38,10 +38,9 @@ class Game_Lists extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(getGameList(
-            this.state.limit
+        this.props.dispatch(getPCTrandingGame(
+            this.state.platform["pc"]
         ))
-        console.log(this.state.limit)
     }
 
     render() { 
@@ -85,6 +84,30 @@ class Game_Lists extends Component {
                  </div>
                 ))} */}
                
+               
+             
+               <Card style={{ width: '18rem' }}>
+                    <Card.Img variant="top" src="holder.js/100px180" />
+                    <Card.Body>
+                        <Card.Title>2</Card.Title>
+                        <Card.Text>
+                        Some quick example text to build on the card title and make up the bulk of
+                        the card's content.
+                        </Card.Text>
+                        <Button variant="primary">Go somewhere</Button>
+                    </Card.Body>
+                </Card>
+               <Card style={{ width: '18rem' }}>
+                    <Card.Img variant="top" src="holder.js/100px180" />
+                    <Card.Body>
+                        <Card.Title>2</Card.Title>
+                        <Card.Text>
+                        Some quick example text to build on the card title and make up the bulk of
+                        the card's content.
+                        </Card.Text>
+                        <Button variant="primary">Go somewhere</Button>
+                    </Card.Body>
+                </Card>
 
                 <Card style={{ width: '18rem' }}>
                     <Card.Img variant="top" src="holder.js/100px180" />

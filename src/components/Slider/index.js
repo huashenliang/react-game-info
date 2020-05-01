@@ -9,7 +9,6 @@ class Slider extends Component {
         url: ["https://cdn.arstechnica.net/wp-content/uploads/2020/04/FINAL-FANTASY-VII-REMAKE_listing.jpg",
             "https://images3.alphacoders.com/746/thumb-1920-746998.jpg",
             "https://store-images.s-microsoft.com/image/apps.1926.67185831113154542.823e899c-d262-40a0-91f6-eee04bdc3713.ca4b2ff5-8dc9-4774-a5f1-4e379a72cbda?mode=scale&q=90&h=1080&w=1920"
-
     ]
     }
 

@@ -1,8 +1,8 @@
 import axios from 'axios';
-
 import {
     GET_GAME_LIST,
-    GET_GAME_SLIDER
+    GET_GAME_SLIDER,
+    GET_PC_TRENDING_GAME
 } from './types';
 
 
@@ -44,5 +44,22 @@ export  async function getGameSlider(name){
         type: GET_GAME_SLIDER,
         payload: results
     }
-
 }
+
+
+export async function getPCTrandingGame(platformId){
+    const request = axios.get(`${API_URL}/getTrending/?id=${platformId}`, )
+    .then(response=> {
+        if(response.status == 200){
+            return response.data
+        }else{
+            return null
+        }
+        
+    })
+
+    return {
+        type: GET_PC_TRENDING_GAME,
+        payload: request
+    }
+    }
