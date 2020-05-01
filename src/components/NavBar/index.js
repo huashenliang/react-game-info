@@ -4,7 +4,7 @@ import { Navbar, Nav, NavDropdown, Form, FormControl,Button } from 'react-bootst
 
 const MainNav = () => {
     return ( 
-            <Navbar bg="light" expand="lg">
+            <Navbar bg="light" expand="lg" fixed="top">
             <Navbar.Brand href="#home">Game Finder</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">

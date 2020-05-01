@@ -57,19 +57,26 @@ app.get('/api/getGenres', async (req,res) => {
 });
 
 
-// ============== Fecthing 3 Trending Games for Slider =====================================================
-async function fetchTredning() {
+// ============== Fecthing 10 Trending Games for Slider =====================================================
+async function fetchTredning(platformID) {
+  var x = new Date();
+  x.setDate(1);
+  x.setMonth(x.getMonth()-1);
+  unixTimeStampLastMonth = (x.getTime() / 1000).toFixed(0)
+
   const response = await igdb(API_KEY)
-        .fields(['name', 'popularity', 'screenshots', 'release_dates'])
-        .sort('release_dates', 'desc')
-        .limit(3)
+        .fields(['name', 'popularity', 'cover', 'first_release_date', 'platforms'])
+        .sort('popularity', 'desc')
+        .where(`first_release_date > ${unixTimeStampLastMonth} & platforms = ${platformID}`)
+        .limit(10)
         .request('/games');
 
   return response.data
 }
 
 app.get('/api/getTrending', async (req,res) => {
-  var data = await fetchTredning()
+  let id = req.query.id ? parseInt(req.query.id) : 0;
+  var data = await fetchTredning(id)
 
   if(data){
     res.send(data);
@@ -77,19 +84,19 @@ app.get('/api/getTrending', async (req,res) => {
   console.log('Sent list of items');
 });
 
-// ============== Get Game Screenshot by ID =====================================================
-async function fetachGameScreenshot(ID) {
+// ============== Get Game Cover by ID =====================================================
+async function fetachGameCover(ID) {
   const response = await igdb(API_KEY)
         .fields(['image_id', 'url', 'width'])
         .where(`game = ${ID}`)
-        .request('/screenshots');
+        .request('/covers');
   return response.data
 }
 
-app.get('/api/getGameScreenshot/', async (req,res) => {
+app.get('/api/getGameCover/', async (req,res) => {
 
   let id = req.query.id ? parseInt(req.query.id) : 0;
-  var data = await fetachGameScreenshot(id)
+  var data = await fetachGameCover(id)
 
   if(data){
     res.send(data);
@@ -97,22 +104,20 @@ app.get('/api/getGameScreenshot/', async (req,res) => {
 
   console.log('Sent list of items');
 });
-
-
 
 
 // ============== Search Game by Name =====================================================
 async function fetachGameByName(name) {
   const response = await igdb(API_KEY)
-        .fields(['name', 'popularity', 'screenshots', 'release_dates'])
+        .fields(['name', 'popularity', 'cover', 'release_dates'])
         .search(name)
         .request('/games');
   
   const promises = response.data.map(async data =>{
 
-    if(data.screenshots){
+    if(data.cover){
       id = data.id
-      const res = await axios.get(`${API_URL}/getGameScreenshot/?id=${id}`)
+      const res = await axios.get(`${API_URL}/getGameCover/?id=${id}`)
       return res.data[res.data.length-1].image_id
     }else{
       return " "
@@ -120,9 +125,17 @@ async function fetachGameByName(name) {
   } )
 
   const results = await Promise.all(promises)
-  console.log(results)
+
+  const modifiedData = response.data.map((data, index) => {
+    image_id = results[index]
+    return{
+      ...data,
+      image_id
+    }
+  })
+
   //return the modified data with image url 
-  return response.data
+  return modifiedData
 }
 
 app.get('/api/searchGame', async (req,res) => {
@@ -135,7 +148,6 @@ app.get('/api/searchGame', async (req,res) => {
   }
   console.log('Sent list of items');
 });
-
 
 
 const port = process.env.PORT || 5000;
