@@ -81,7 +81,6 @@ app.get('/api/getTrending', async (req,res) => {
   if(data){
     res.send(data);
   }
-  console.log('Sent list of items');
 });
 
 // ============== Get Game Cover by ID =====================================================

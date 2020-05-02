@@ -20,7 +20,6 @@ class Slider extends Component {
     render() { 
    
         return ( 
-           
                 <Carousel>
                 {this.props.games_slider !== undefined 
                 ? this.props.games_slider.map((Item, index) => 
@@ -48,7 +47,7 @@ class Slider extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
+
     return {
         games_slider: state.games.games_slider
     }
