@@ -9,7 +9,7 @@ const MainNav = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                    <NavDropdown title="Game Types" id="basic-nav-dropdown">
                         <NavDropdown.Item href="#action/3.1">PC Games</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.2">PS4</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.3">OneBox</NavDropdown.Item>

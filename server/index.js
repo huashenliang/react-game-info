@@ -65,13 +65,34 @@ async function fetchTredning(platformID) {
   unixTimeStampLastMonth = (x.getTime() / 1000).toFixed(0)
 
   const response = await igdb(API_KEY)
-        .fields(['name', 'popularity', 'cover', 'first_release_date', 'platforms'])
+        .fields(['name', 'popularity', 'cover', 'summary', 'storyline','first_release_date', 'platforms'])
         .sort('popularity', 'desc')
         .where(`first_release_date > ${unixTimeStampLastMonth} & platforms = ${platformID}`)
         .limit(10)
         .request('/games');
 
-  return response.data
+    const promises = response.data.map(async data =>{
+          if(data){
+            
+            id = data.cover
+            const res = await axios.get(`${API_URL}/getGameCoverByCoverId/?id=${id}`)
+            return res.data[res.data.length-1].image_id
+          }else{
+            return " "
+          }
+        } )
+      
+        const results = await Promise.all(promises)
+        const modifiedData = response.data.map((data, index) => {
+          image_id = results[index]
+          return{
+            ...data,
+            image_id
+          }
+        })
+        
+        //return the modified data with cover url 
+        return modifiedData
 }
 
 app.get('/api/getTrending', async (req,res) => {
@@ -82,6 +103,28 @@ app.get('/api/getTrending', async (req,res) => {
     res.send(data);
   }
 });
+
+// ============== Get Game Cover by Cover ID =====================================================
+async function fetachGameCoverByCoverId(ID) {
+  const response = await igdb(API_KEY)
+        .fields(['image_id', 'url', 'width'])
+        .where(`id = ${ID}`)
+        .request('/covers');
+  return response.data
+}
+
+app.get('/api/getGameCoverByCoverId/', async (req,res) => {
+
+  let id = req.query.id ? parseInt(req.query.id) : 0;
+  var data = await fetachGameCoverByCoverId(id)
+
+  if(data){
+    res.send(data);
+  }
+
+  console.log('Sent list of items');
+});
+
 
 // ============== Get Game Cover by ID =====================================================
 async function fetachGameCover(ID) {
@@ -147,7 +190,6 @@ app.get('/api/searchGame', async (req,res) => {
   }
   console.log('Sent list of items');
 });
-
 
 const port = process.env.PORT || 5000;
 app.listen(port);

@@ -8,7 +8,6 @@ import WithStyles from 'react-multi-carousel'
 import './style.css';
 import 'react-multi-carousel/lib/styles.css';
 
-
 const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -47,7 +46,7 @@ class Game_Lists extends Component {
         return ( 
         <div className="div">
             <h1 className="heading">
-                Trending Games
+                Trending PC Games
             </h1>
             {this.props.PC_trending_game !== undefined ?
             <Carousel
@@ -70,13 +69,13 @@ class Game_Lists extends Component {
                 itemClass="carousel-item-padding-40-px"
             >
                 {this.props.PC_trending_game.map((Item, index) => (
-                    <Card key={index} style={{ width: '18rem' }}>
-                        <Card.Img variant="top" src="holder.js/100px180" />
+                    <Card key={index} className="card">
+                        <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
                         <Card.Body>
                             <Card.Title>{Item.name}</Card.Title>
                             <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
+                                {Item.summary.length < 150 ? Item.summary
+                                :`${Item.summary.substring(0, 150)} ... `}
                             </Card.Text>
                             <Button variant="primary">Go somewhere</Button>
                         </Card.Body>
@@ -84,7 +83,6 @@ class Game_Lists extends Component {
                 ))}
             </Carousel>
             : null}
-         
           </div>
          );
     }
