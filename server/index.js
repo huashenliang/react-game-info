@@ -34,7 +34,6 @@ app.get('/api/getGames', async (req,res) => {
     if(data){
       res.send(data);
     }
-    console.log('Sent list of items');
 });
 
 
@@ -53,7 +52,6 @@ app.get('/api/getGenres', async (req,res) => {
   if(data){
     res.send(data);
   }
-  console.log('Sent list of items');
 });
 
 
@@ -121,8 +119,6 @@ app.get('/api/getGameCoverByCoverId/', async (req,res) => {
   if(data){
     res.send(data);
   }
-
-  console.log('Sent list of items');
 });
 
 
@@ -144,7 +140,6 @@ app.get('/api/getGameCover/', async (req,res) => {
     res.send(data);
   }
 
-  console.log('Sent list of items');
 });
 
 
@@ -188,7 +183,6 @@ app.get('/api/searchGame', async (req,res) => {
   if(data){
     res.send(data);
   }
-  console.log('Sent list of items');
 });
 
 const port = process.env.PORT || 5000;

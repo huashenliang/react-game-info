@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Card, Button} from 'react-bootstrap'
 import { connect } from 'react-redux';
-import { getPCTrandingGame } from '../../actions/game_actions';
+import { getPCTrandingGame, getPS4TrandingGame, getXboxOneTrandingGame } from '../../actions/game_actions';
 
 import Carousel from 'react-multi-carousel';
 import WithStyles from 'react-multi-carousel'
@@ -33,25 +33,34 @@ class Game_Lists extends Component {
             "pc": 6,
             "ps4": 48,
             "xboxOne": 49
-        }
+        },
+        heading: ["Trending PC Games", "Trending PS4 Games", "Trending XboxOne Games"]
     }
 
     componentDidMount() {
         this.props.dispatch(getPCTrandingGame(
             this.state.platform["pc"]
         ))
+        this.props.dispatch(getPS4TrandingGame(
+            this.state.platform["ps4"]
+        ))
+        this.props.dispatch(getXboxOneTrandingGame(
+            this.state.platform["xboxOne"]
+        ))
     }
 
     render() { 
         return ( 
         <div className="div">
-            <h1 className="heading">
-                Trending PC Games
-            </h1>
-            {this.props.PC_trending_game !== undefined ?
-            <Carousel
+            {this.props.PC_trending_game !== undefined &&
+            this.props.PS4_trending_game !== undefined &&
+            this.props.Xbox_One_trending_game !== undefined
+            ?
+            this.state.heading.map(i => (
+                <div> 
+                <h1 className="heading">{i}</h1>
+                <Carousel
                 swipeable={false}
-                draggable={false}
                 draggable
                 showDots={false}
                 responsive={responsive}
@@ -68,29 +77,63 @@ class Game_Lists extends Component {
                 dotListClass="custom-dot-list-style"
                 itemClass="carousel-item-padding-40-px"
             >
-                {this.props.PC_trending_game.map((Item, index) => (
+                {i === 'Trending PC Games' ? this.props.PC_trending_game.map((Item, index) => (
                     <Card key={index} className="card">
                         <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
                         <Card.Body>
                             <Card.Title>{Item.name}</Card.Title>
-                            <Card.Text>
+                            {/* <Card.Text>
                                 {Item.summary.length < 150 ? Item.summary
                                 :`${Item.summary.substring(0, 150)} ... `}
-                            </Card.Text>
-                            <Button variant="primary">Go somewhere</Button>
+                            </Card.Text> */}
+                            <Button variant="primary" href={`/game_details/${Item.id}`}>Game Details</Button>
                         </Card.Body>
                     </Card> 
-                ))}
-            </Carousel>
+                )): null} 
+
+                {i === 'Trending PS4 Games' ? this.props.PS4_trending_game.map((Item, index) => (
+                    <Card key={index} className="card">
+                        <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
+                        <Card.Body>
+                            <Card.Title>{Item.name}</Card.Title>
+                            {/* <Card.Text>
+                                {Item.summary.length < 150 ? Item.summary
+                                :`${Item.summary.substring(0, 150)} ... `}
+                            </Card.Text> */}
+                            <Button variant="primary" href={`/game_details/${Item.id}`}>Game Details</Button>
+                        </Card.Body>
+                    </Card> 
+                )): null} 
+                
+                {i === 'Trending XboxOne Games' ? this.props.Xbox_One_trending_game.map((Item, index) => (
+                    <Card key={index} className="card">
+                        <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
+                        <Card.Body>
+                            <Card.Title>{Item.name}</Card.Title>
+                            {/* <Card.Text>
+                                {Item.summary.length < 150 ? Item.summary
+                                :`${Item.summary.substring(0, 150)} ... `}
+                            </Card.Text> */}
+                            <Button variant="primary" href={`/game_details/${Item.id}`}>Game Details</Button>
+                        </Card.Body>
+                    </Card> 
+                )): null} 
+
+                </Carousel>
+            </div>
+            ))
+           
             : null}
           </div>
-         );
+        );
     }
 }
  
 const mapStateToProps = (state) => {
     return {
-        PC_trending_game: state.games.PC_trending_game
+        PC_trending_game: state.games.PC_trending_game,
+        PS4_trending_game: state.games.PS4_trending_game,
+        Xbox_One_trending_game: state.games.Xbox_One_trending_game
     }
 }
 
