@@ -37,24 +37,6 @@ app.get('/api/getGames', async (req,res) => {
 });
 
 
-// ============== Fecthing Genres =====================================================
-async function fetchGenres() {
-  const response = await igdb(API_KEY)
-        .fields(['created_at', 'name', 'slug'])
-        .limit(30)
-        .request('/genres');
-
-  return response.data
-}
-
-app.get('/api/getGenres', async (req,res) => {
-  var data = await fetchGenres()
-  if(data){
-    res.send(data);
-  }
-});
-
-
 // ============== Fecthing 10 Trending Games for Slider =====================================================
 async function fetchTredning(platformID) {
   var x = new Date();
@@ -175,6 +157,108 @@ async function fetachGameByName(name) {
   return modifiedData
 }
 
+// ============== Fecthing games =====================================================
+async function fetchGameByGameId(id) {
+  const response = await igdb(API_KEY)
+        .fields(['name', 'platforms', 'storyline','summary', 'cover', 'genres', 'popularity', 'total_rating'])
+        .where(`id = ${id}`)
+        .request('/games');
+
+        //geting the cover by cover id array
+        const coverPromises = response.data.map(async data =>{
+          if(data.cover){
+            id = data.id
+            const res = await axios.get(`${API_URL}/getGameCover/?id=${id}`)
+            return res.data[res.data.length-1].image_id
+          }else{
+            return " "
+          }
+        } )
+
+        //getting the genres name by genres id array 
+        const genresPromises = response.data.map(async data => {
+          if(data.genres){
+            id= data.genres.toString();
+            const res = await axios.get(`${API_URL}/getGenres/?id=${id}`)
+            return res.data.map(i => i.name) 
+          }else{
+            return " "
+          }
+        })
+
+        //getting the platfomr names by platform id array
+        const platfromPromises = response.data.map(async data => {
+          if(data.genres){
+            id= data.genres.toString();
+            const res = await axios.get(`${API_URL}/getPlaforms/?id=${id}`)
+            return res.data.map(i => i.name) 
+          }else{
+            return " "
+          }
+        })
+    
+        const coverResults = await Promise.all(coverPromises);
+        const genreNames =  await Promise.all(genresPromises);
+        const platformNames = await Promise.all(platfromPromises);
+
+        const modifiedData = response.data.map((data, index) => {
+          image_id = coverResults[index]
+          return{
+            ...data,
+            image_id,
+            genreNames,
+            platformNames
+          }
+        })
+      
+        //return the modified data with image url 
+        return modifiedData
+
+}
+
+app.get('/api/getGamesById/', async (req,res) => {
+    let id = req.query.id ? parseInt(req.query.id) : 0;
+    var data = await fetchGameByGameId(id)
+    if(data){
+      res.send(data);
+    }
+});
+
+
+// ============== Fecthing Genres =====================================================
+async function fetachGenres(id) {
+  const response = await igdb(API_KEY)
+        .fields(['name'])
+        .where(`id = (${id})`)
+        .request('/genres');
+  return response.data
+}
+
+app.get('/api/getGenres/', async (req,res) => {
+  let id = req.query.id ? req.query.id  : 0;
+  var data = await fetachGenres(id)
+  if(data){
+    res.send(data);
+  }
+});
+
+// ============== Fecthing Platforms =====================================================
+async function fetachPlatforms(id) {
+  const response = await igdb(API_KEY)
+        .fields(['name'])
+        .where(`id = (${id})`)
+        .request('/platforms');
+  return response.data
+}
+
+app.get('/api/getPlaforms/', async (req,res) => {
+  let id = req.query.id ? req.query.id  : 0;
+  var data = await fetachPlatforms(id)
+  if(data){
+    res.send(data);
+  }
+});
+
 app.get('/api/searchGame', async (req,res) => {
 
   let name = req.query.name ? req.query.name : '';
@@ -184,6 +268,8 @@ app.get('/api/searchGame', async (req,res) => {
     res.send(data);
   }
 });
+
+
 
 const port = process.env.PORT || 5000;
 app.listen(port);

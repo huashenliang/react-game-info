@@ -86,7 +86,7 @@ class Game_Lists extends Component {
                                 {Item.summary.length < 150 ? Item.summary
                                 :`${Item.summary.substring(0, 150)} ... `}
                             </Card.Text> */}
-                            <Button variant="primary" href={`/game_details/${Item.id}`}>Game Details</Button>
+                            <Button variant="primary" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
                         </Card.Body>
                     </Card> 
                 )): null} 
@@ -96,11 +96,7 @@ class Game_Lists extends Component {
                         <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
                         <Card.Body>
                             <Card.Title>{Item.name}</Card.Title>
-                            {/* <Card.Text>
-                                {Item.summary.length < 150 ? Item.summary
-                                :`${Item.summary.substring(0, 150)} ... `}
-                            </Card.Text> */}
-                            <Button variant="primary" href={`/game_details/${Item.id}`}>Game Details</Button>
+                            <Button variant="primary" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
                         </Card.Body>
                     </Card> 
                 )): null} 
@@ -110,11 +106,7 @@ class Game_Lists extends Component {
                         <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
                         <Card.Body>
                             <Card.Title>{Item.name}</Card.Title>
-                            {/* <Card.Text>
-                                {Item.summary.length < 150 ? Item.summary
-                                :`${Item.summary.substring(0, 150)} ... `}
-                            </Card.Text> */}
-                            <Button variant="primary" href={`/game_details/${Item.id}`}>Game Details</Button>
+                            <Button variant="primary" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
                         </Card.Body>
                     </Card> 
                 )): null} 

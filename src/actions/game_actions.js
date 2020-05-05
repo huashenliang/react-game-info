@@ -4,7 +4,8 @@ import {
     GET_GAME_SLIDER,
     GET_PC_TRENDING_GAME,
     GET_PS4_TRENDING_GAME,
-    GET_XBOX_ONE_TRENDING_GAME
+    GET_XBOX_ONE_TRENDING_GAME,
+    GET_GAME_DETAILS
 } from './types';
 
 
@@ -89,10 +90,24 @@ export async function getXboxOneTrandingGame(platformId){
         }else{
             return null
         }
-        
     })
     return {
         type: GET_XBOX_ONE_TRENDING_GAME,
+        payload: request
+    }
+}
+
+export async function getGameDetails(id){
+    const request = axios.get(`${API_URL}/getGamesById/?id=${id}`, )
+    .then(response=> {
+        if(response.status == 200){
+            return response.data
+        }else{
+            return null
+        }
+    })
+    return {
+        type: GET_GAME_DETAILS,
         payload: request
     }
 }
