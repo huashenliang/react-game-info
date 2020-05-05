@@ -160,7 +160,7 @@ async function fetachGameByName(name) {
 // ============== Fecthing games =====================================================
 async function fetchGameByGameId(id) {
   const response = await igdb(API_KEY)
-        .fields(['name', 'platforms', 'storyline','summary', 'cover', 'genres', 'popularity', 'total_rating'])
+        .fields(['name', 'platforms','storyline','summary', 'cover', 'genres', 'popularity', 'total_rating'])
         .where(`id = ${id}`)
         .request('/games');
 
@@ -196,18 +196,20 @@ async function fetchGameByGameId(id) {
             return " "
           }
         })
+
     
         const coverResults = await Promise.all(coverPromises);
         const genreNames =  await Promise.all(genresPromises);
         const platformNames = await Promise.all(platfromPromises);
 
+  
         const modifiedData = response.data.map((data, index) => {
           image_id = coverResults[index]
           return{
             ...data,
             image_id,
             genreNames,
-            platformNames
+            platformNames,
           }
         })
       
@@ -223,7 +225,6 @@ app.get('/api/getGamesById/', async (req,res) => {
       res.send(data);
     }
 });
-
 
 // ============== Fecthing Genres =====================================================
 async function fetachGenres(id) {
@@ -258,6 +259,25 @@ app.get('/api/getPlaforms/', async (req,res) => {
     res.send(data);
   }
 });
+
+
+// ============== Fecthing Artworks =====================================================
+async function fetachArtworks(id) {
+  const response = await igdb(API_KEY)
+        .fields(['height','image_id','url','width'])
+        .where(`id = ${id}`)
+        .request('/artworks');
+  return response.data
+}
+
+app.get('/api/getArtworks/', async (req,res) => {
+  let id = req.query.id ? req.query.id  : 0;
+  var data = await fetachArtworks(id)
+  if(data){
+    res.send(data);
+  }
+});
+
 
 app.get('/api/searchGame', async (req,res) => {
 

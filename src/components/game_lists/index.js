@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, Button} from 'react-bootstrap'
+import {Card} from 'react-bootstrap'
 import { connect } from 'react-redux';
 import { getPCTrandingGame, getPS4TrandingGame, getXboxOneTrandingGame } from '../../actions/game_actions';
 
@@ -7,6 +7,7 @@ import Carousel from 'react-multi-carousel';
 import WithStyles from 'react-multi-carousel'
 import './style.css';
 import 'react-multi-carousel/lib/styles.css';
+import {Button} from 'reactstrap';
 
 const responsive = {
     desktop: {
@@ -86,7 +87,7 @@ class Game_Lists extends Component {
                                 {Item.summary.length < 150 ? Item.summary
                                 :`${Item.summary.substring(0, 150)} ... `}
                             </Card.Text> */}
-                            <Button variant="primary" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
+                            <Button color="info" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
                         </Card.Body>
                     </Card> 
                 )): null} 
@@ -96,7 +97,7 @@ class Game_Lists extends Component {
                         <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
                         <Card.Body>
                             <Card.Title>{Item.name}</Card.Title>
-                            <Button variant="primary" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
+                            <Button color="info" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
                         </Card.Body>
                     </Card> 
                 )): null} 
@@ -106,7 +107,7 @@ class Game_Lists extends Component {
                         <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
                         <Card.Body>
                             <Card.Title>{Item.name}</Card.Title>
-                            <Button variant="primary" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
+                            <Button color="info" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
                         </Card.Body>
                     </Card> 
                 )): null} 
