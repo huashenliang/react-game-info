@@ -53,9 +53,7 @@ class Game_Lists extends Component {
     render() { 
         return ( 
         <div className="div">
-            {this.props.PC_trending_game !== undefined &&
-            this.props.PS4_trending_game !== undefined &&
-            this.props.Xbox_One_trending_game !== undefined
+            {this.props.PC_trending_game && this.props.PS4_trending_game  && this.props.Xbox_One_trending_game 
             ?
             this.state.heading.map(i => (
                 <div> 
@@ -78,20 +76,20 @@ class Game_Lists extends Component {
                 dotListClass="custom-dot-list-style"
                 itemClass="carousel-item-padding-40-px"
             >
-                {i === 'Trending PC Games' ? this.props.PC_trending_game.map((Item, index) => (
-                    <Card key={index} className="card">
-                        <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
-                        <Card.Body>
-                            <Card.Title>{Item.name}</Card.Title>
-                            {/* <Card.Text>
-                                {Item.summary.length < 150 ? Item.summary
-                                :`${Item.summary.substring(0, 150)} ... `}
-                            </Card.Text> */}
-                            <Button color="info" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
-                        </Card.Body>
-                    </Card> 
-                )): null} 
-
+              
+              {i === 'Trending PC Games' ? this.props.PC_trending_game.map((Item, index) => (
+                <Card key={index} className="card">
+                    <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
+                    <Card.Body>
+                        <Card.Title>{Item.name}</Card.Title>
+                        {/* <Card.Text>
+                            {Item.summary.length < 150 ? Item.summary
+                            :`${Item.summary.substring(0, 150)} ... `}
+                        </Card.Text> */}
+                        <Button color="info" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
+                    </Card.Body>
+                </Card> 
+            )): null} 
                 {i === 'Trending PS4 Games' ? this.props.PS4_trending_game.map((Item, index) => (
                     <Card key={index} className="card">
                         <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />

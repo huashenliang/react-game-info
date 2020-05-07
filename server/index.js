@@ -45,15 +45,14 @@ async function fetchTredning(platformID) {
   unixTimeStampLastMonth = (x.getTime() / 1000).toFixed(0)
 
   const response = await igdb(API_KEY)
-        .fields(['name', 'popularity', 'cover', 'summary', 'storyline','first_release_date', 'platforms'])
+        .fields(['name', 'cover', 'first_release_date', 'platforms'])
         .sort('popularity', 'desc')
         .where(`first_release_date > ${unixTimeStampLastMonth} & platforms = ${platformID}`)
-        .limit(10)
+        .limit(7)
         .request('/games');
 
     const promises = response.data.map(async data =>{
           if(data){
-            
             id = data.cover
             const res = await axios.get(`${API_URL}/getGameCoverByCoverId/?id=${id}`)
             return res.data[res.data.length-1].image_id

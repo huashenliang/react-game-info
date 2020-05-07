@@ -10,12 +10,10 @@ class Game_Details extends Component {
 
     componentDidMount() {
         this.props.dispatch(getGameDetails(queryString.parse(this.props.location.search).id))
-        
     }
 
     render() { 
         return ( 
-
             <Container>
                  <MainNav />
                  {this.props.game_details ? 
@@ -25,11 +23,11 @@ class Game_Details extends Component {
                      </Col>
                      <Col  xs={6} md={0}>
                         <h1 style={{paddingTop:"20%"}}>{this.props.game_details[0].name}</h1>
-                        {this.props.game_details[0].genreNames[0].map((item,index)=> 
-                            <h3 key={index}>{item}</h3>
-                        )} 
+                        {this.props.game_details[0].genreNames[0] !== " " ? 
+                        this.props.game_details[0].genreNames[0].map((item,index)=> 
+                            <h3 key={index}>{item}</h3>                
+                        ) :null}
                      </Col>
-               
                 </Row>
                 : null
                 }
