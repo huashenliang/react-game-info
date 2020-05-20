@@ -1,0 +1,41 @@
+
+
+.gamepage-header {
+    width: 100%;
+    padding-top: 220px;
+}
+
+body {
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    font-size: 12.992px;
+    line-height: 1.42857;
+    color: #34373b;
+    background-color: #fff;
+}
+
+
+.gamepage-header-info {
+    position: relative;
+    margin-bottom: 15px;
+    padding-top: 15px;
+} 
+
+.parallax-background {
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    -moz-filter: blur(8px);
+    -webkit-filter: blur(8px);
+    filter: blur(8px);
+    transform: scale(1.1);
+}
+
+.parallax-container {
+    position: absolute;
+    left: 0;
+    height: 700px;
+    margin-top: -220px;
+    width: 100%;
+    overflow: hidden;
+}

@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 import {Carousel, Container} from 'react-bootstrap';
 import { getGameSlider } from "../../actions/game_actions";
 import {connect} from 'react-redux'
+import './style.css';
 
 class Slider extends Component {
     state = { 
@@ -14,17 +15,17 @@ class Slider extends Component {
 
     componentDidMount() {
         this.props.dispatch(getGameSlider(this.state.name))
-       
     }
 
     render() { 
    
         return ( 
-                <Carousel>
+      
+                <Carousel >
                 {this.props.games_slider !== undefined 
                 ? this.props.games_slider.map((Item, index) => 
                         
-                    <Carousel.Item key={index} style={{height:'100vh'}} >
+                    <Carousel.Item key={index} style={{height:'80vh'}} >
                         <img
                         className="d-block w-100"
                         src= {this.state.url[index]}
@@ -35,7 +36,6 @@ class Slider extends Component {
                         <h1>{Item.name}</h1>
                         </Carousel.Caption>
                     </Carousel.Item>
-                    
                 )
 
                 : null}

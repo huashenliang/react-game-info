@@ -123,6 +123,27 @@ app.get('/api/getGameCover/', async (req,res) => {
 
 });
 
+// ============== Get Game Screenshots by ID =====================================================
+async function fetachGameScreenshots(ID) {
+  const response = await igdb(API_KEY)
+        .fields(['image_id', 'url', 'width'])
+        .where(`id = ${ID}`)
+        .limit(1)
+        .request('/screenshots');
+  return response.data
+}
+
+app.get('/api/getScreenshots/', async (req,res) => {
+
+  let id = req.query.id ? parseInt(req.query.id) : 0;
+  var data = await fetachGameScreenshots(id)
+
+  if(data){
+    res.send(data[0].image_id);
+  }
+});
+
+
 
 // ============== Search Game by Name =====================================================
 async function fetachGameByName(name) {
@@ -159,7 +180,7 @@ async function fetachGameByName(name) {
 // ============== Fecthing games =====================================================
 async function fetchGameByGameId(id) {
   const response = await igdb(API_KEY)
-        .fields(['name', 'platforms','storyline','summary', 'cover', 'genres', 'popularity', 'total_rating'])
+        .fields(['name', 'platforms','storyline','summary', 'cover', 'genres', 'popularity', 'screenshots', 'total_rating'])
         .where(`id = ${id}`)
         .request('/games');
 
@@ -196,12 +217,23 @@ async function fetchGameByGameId(id) {
           }
         })
 
+        const screenshotPromises = response.data.map(async data => {
+          if(data.screenshots){
+            id= data.screenshots[0];
+            console.log(id)
+            const res = await axios.get(`${API_URL}/getScreenshots/?id=${id}`)
+
+            return res.data
+          }else{
+            return " "
+          }
+        })
     
         const coverResults = await Promise.all(coverPromises);
         const genreNames =  await Promise.all(genresPromises);
         const platformNames = await Promise.all(platfromPromises);
-
-  
+        const screenshot_id = await Promise.all(screenshotPromises);
+ 
         const modifiedData = response.data.map((data, index) => {
           image_id = coverResults[index]
           return{
@@ -209,6 +241,7 @@ async function fetchGameByGameId(id) {
             image_id,
             genreNames,
             platformNames,
+            screenshot_id
           }
         })
       
@@ -279,7 +312,6 @@ app.get('/api/getArtworks/', async (req,res) => {
 
 
 app.get('/api/searchGame', async (req,res) => {
-
   let name = req.query.name ? req.query.name : '';
   var data = await fetachGameByName(name)
 
@@ -287,7 +319,6 @@ app.get('/api/searchGame', async (req,res) => {
     res.send(data);
   }
 });
-
 
 
 const port = process.env.PORT || 5000;
