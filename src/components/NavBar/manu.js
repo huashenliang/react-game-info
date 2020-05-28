@@ -17,8 +17,6 @@ const StyledMenu = withStyles({
   },
 })((props) => (
   <Menu
-    component={Link}
-    to="/pc_games"
     elevation={0}
     getContentAnchorEl={null}
     anchorOrigin={{
@@ -47,7 +45,6 @@ const StyledMenuItem = withStyles((theme) => ({
 
 export default function TaggleMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const preventDefault = (event) => event.preventDefault();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -59,7 +56,7 @@ export default function TaggleMenu() {
 
   return (
     <div>
-      <Button
+        <Button
         aria-controls="customized-menu"
         aria-haspopup="true"
         variant="contained"
@@ -69,6 +66,8 @@ export default function TaggleMenu() {
         <SportsEsportsIcon style={{paddingRight: '5%'}}/>
          Games PLATFORMS
       </Button>
+      
+    
       <StyledMenu
         id="customized-menu"
         anchorEl={anchorEl}

@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import { getPCTrandingGame, getPS4TrandingGame, getXboxOneTrandingGame } from '../../actions/game_actions';
 
 import Carousel from 'react-multi-carousel';
-import WithStyles from 'react-multi-carousel'
 import './style.css';
 import 'react-multi-carousel/lib/styles.css';
 import {Button} from 'reactstrap';
+
+import Fade from 'react-reveal/Fade';
+
 
 const responsive = {
     desktop: {
@@ -59,25 +61,25 @@ class Game_Lists extends Component {
                 <div> 
                 <h1 className="heading">{i}</h1>
                 <Carousel
-                swipeable={false}
+                swipeable={true}
                 draggable
                 showDots={false}
                 responsive={responsive}
                 ssr={true} // means to render carousel on server-side.
                 infinite={true}
-                autoPlay={this.props.deviceType !== "mobile" ? true : false}
-                autoPlaySpeed={3000}
+                autoPlay={false}
                 keyBoardControl={true}
                 customTransition="all .5"
                 transitionDuration={3000}
                 containerClass="carousel-container"
-                removeArrowOnDeviceType={["tablet", "mobile","desktop"]}
+                removeArrowOnDeviceType={["tablet", "mobile"]}
                 deviceType={this.props.deviceType}
                 dotListClass="custom-dot-list-style"
                 itemClass="carousel-item-padding-40-px"
             >
               
               {i === 'Trending PC Games' ? this.props.PC_trending_game.map((Item, index) => (
+                <Fade left delay={index*50} key={index}>
                 <Card key={index} className="card">
                     <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
                     <Card.Body>
@@ -89,8 +91,10 @@ class Game_Lists extends Component {
                         <Button color="info" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
                     </Card.Body>
                 </Card> 
+                </Fade>
             )): null} 
                 {i === 'Trending PS4 Games' ? this.props.PS4_trending_game.map((Item, index) => (
+                    <Fade left delay={index*50} key={index}>
                     <Card key={index} className="card">
                         <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
                         <Card.Body>
@@ -98,16 +102,20 @@ class Game_Lists extends Component {
                             <Button color="info" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
                         </Card.Body>
                     </Card> 
+                    </Fade>
                 )): null} 
                 
                 {i === 'Trending XboxOne Games' ? this.props.Xbox_One_trending_game.map((Item, index) => (
-                    <Card key={index} className="card">
+                    <Fade left delay={index*50} key={index}>
+                        <Card key={index} className="card">
                         <Card.Img variant="top" src={`//images.igdb.com/igdb/image/upload/t_cover_big/${Item.image_id}.jpg`} />
                         <Card.Body>
                             <Card.Title>{Item.name}</Card.Title>
                             <Button color="info" href={`/game_details/?id=${Item.id}`}>Game Details</Button>
                         </Card.Body>
                     </Card> 
+                    </Fade>
+          
                 )): null} 
 
                 </Carousel>

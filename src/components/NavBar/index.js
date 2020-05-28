@@ -39,7 +39,6 @@ import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import Link from '@material-ui/core/Link';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
@@ -47,6 +46,7 @@ import Grid from '@material-ui/core/Grid'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Container from '@material-ui/core/Container';
 import TaggleMenu from './manu';
+import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -115,28 +115,15 @@ const useStyles = makeStyles((theme) => ({
 export default function MainNav() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const preventDefault = (event) => event.preventDefault();
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -154,62 +141,25 @@ export default function MainNav() {
     </Menu>
   );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
 
   return (
     <div className={classes.grow}>
       <AppBar position="fixed">
           <Container>
             <Toolbar>
-            <IconButton
-                edge="start"
-                className={classes.menuButton}
-                color="inherit"
-                aria-label="open drawer"
-            >
-                <Typography className={classes.title} variant="h6" noWrap>
-                    Game Finder
-                </Typography>
-            </IconButton>
+            <Link to='/' style={{ textDecoration: 'none', color:"white"}}>
+              <IconButton
+                  edge="start"
+                  className={classes.menuButton}
+                  color="inherit"
+                  aria-label="open drawer"
+              >
+                  <Typography className={classes.title} variant="h6" noWrap>
+                      Game Finder
+                  </Typography>
+              </IconButton>
+            </Link>
+         
 
             <Grid item xs={6}>
                 <div className={classes.search}>
@@ -231,8 +181,7 @@ export default function MainNav() {
             </Toolbar>
         </Container>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
+        {renderMenu}
     </div>
   );
 }
