@@ -19,6 +19,7 @@ class App extends Component {
     return (
     <Switch>
         <Route path="/game_details" component={Game_Details} />
+        <Route path='/pc_games' component={PC_Game}/>
         {/* <Route path="/game_details">
           <Game_Details />
         </Route> */}

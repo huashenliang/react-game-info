@@ -144,7 +144,23 @@ app.get('/api/getScreenshots/', async (req,res) => {
 });
 
 
+// ============== Fecthing Companys =====================================================
+async function fetachCompanys(id) {
+  const response = await igdb(API_KEY)
+        .fields(['name', 'websites'])
+        .where(`id = ${id}`)
+        .request('/companies');
+  return response.data
+}
 
+app.get('/api/getCompanies/', async (req,res) => {
+  let id = req.query.id ? req.query.id  : 0;
+  var data = await fetachCompanys(id)
+  console.log(data)
+  if(data){
+    res.send(data);
+  }
+});
 // ============== Search Game by Name =====================================================
 async function fetachGameByName(name) {
   const response = await igdb(API_KEY)
@@ -180,7 +196,7 @@ async function fetachGameByName(name) {
 // ============== Fecthing games =====================================================
 async function fetchGameByGameId(id) {
   const response = await igdb(API_KEY)
-        .fields(['name', 'platforms','storyline','summary', 'cover', 'genres', 'popularity', 'screenshots', 'total_rating'])
+        .fields(['name', 'involved_companies', 'platforms','storyline','summary', 'cover', 'genres', 'popularity', 'screenshots', 'total_rating'])
         .where(`id = ${id}`)
         .request('/games');
 
@@ -220,7 +236,6 @@ async function fetchGameByGameId(id) {
         const screenshotPromises = response.data.map(async data => {
           if(data.screenshots){
             id= data.screenshots[0];
-            console.log(id)
             const res = await axios.get(`${API_URL}/getScreenshots/?id=${id}`)
 
             return res.data
@@ -291,6 +306,8 @@ app.get('/api/getPlaforms/', async (req,res) => {
     res.send(data);
   }
 });
+
+
 
 
 // ============== Fecthing Artworks =====================================================
