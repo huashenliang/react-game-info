@@ -143,7 +143,7 @@ export default function MainNav() {
 
 
   return (
-    <div className={classes.grow}>
+    <div className={classes.grow} >
       <AppBar position="fixed">
           <Container>
             <Toolbar>
