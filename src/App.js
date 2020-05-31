@@ -8,20 +8,24 @@ import Game_Details from './components/Game_details';
 import {ThemeProvider, createMuiTheme} from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline';
 function App() {
-    const [darkMode, setDarkMode] = useState(false);
+    const [darkMode, setDarkMode] = useState(true);
     const darkTheme = createMuiTheme({
       palette: {
-        type: 'dark'
+        type: 'dark',
+        primary:{ main: '#424242'},
+        secondary: {main: '#ffffff'}
       }
     });
 
     const lightTheme = createMuiTheme({
       palette: {
-        type: 'light'
+        type: 'light',
+        primary:{  main: '#1976d2'},
+        secondary: {main: '#084F94'}
       }
     })
 
-    const handler = () => { setDarkMode(!darkMode); console.log('handler')}
+    const handler = () => { setDarkMode(!darkMode);}
     
 
     return (

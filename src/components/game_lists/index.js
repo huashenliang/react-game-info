@@ -8,6 +8,7 @@ import 'react-multi-carousel/lib/styles.css';
 import Fade from 'react-reveal/Fade';
 import GameCard from './Game_Card';
 
+
 const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },

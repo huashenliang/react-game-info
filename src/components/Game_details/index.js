@@ -3,17 +3,13 @@ import queryString from 'query-string';
 import MainNav from '../NavBar'
 import { connect } from 'react-redux';
 import {getGameDetails} from '../../actions/game_actions';
-import {Container,Row, Col, Image }from 'react-bootstrap';
-import './style.css';
 
+import {Container, AppBar, Tabs, Tab, Typography, Box, makeStyles, useTheme, Grid }from '@material-ui/core';
+import Circle from 'react-circle';
+import {Image} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import './style.css';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,11 +47,11 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: 500,
+    width: 800,
   },
 }));
 
-function FullWidthTabs() {
+function FullWidthTabs(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -70,6 +66,7 @@ function FullWidthTabs() {
 
   return (
     <div className={classes.root}>
+      {console.log(props)}
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -79,9 +76,9 @@ function FullWidthTabs() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Storyline" {...a11yProps(0)} />
+          <Tab label="Summary" {...a11yProps(1)} />
+          <Tab label="Other Links" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -90,10 +87,10 @@ function FullWidthTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
+          {props.storyline ? props.storyline : 'Sorry, this game does not have a storyline'}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          {props.summary}
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three
@@ -123,7 +120,7 @@ class Game_Details extends Component {
     render() { 
         return ( 
             <div>
-              {console.log(this.props)}
+                <MainNav />
                 {this.props.game_details ? 
                 <div className="parallax-container">
                     <div className="parallax-background">
@@ -137,30 +134,41 @@ class Game_Details extends Component {
                 
       
                 <Container  className="gamepage-header-info">
-                      {/* {this.props.game_details ? 
+                      {this.props.game_details ? 
                         <div>
-                       <Row style={{paddingTop:"15%"}}>
-                            <Col xs={6} md={4}>
+                       <Grid container spacing={1}style={{paddingTop:"15%"}}>
+                            <Grid  item xs={6} sm={3}>
                                 <Image style={{paddingTop: "15%"}}  src={`//images.igdb.com/igdb/image/upload/t_cover_big/${this.props.game_details[0].image_id}.jpg`} rounded />
-                            </Col>
-                            <Col  xs={6} md={0} className="game-title" >
+                            </Grid >
+
+                            <Grid   item xs={6} sm={3} className="game-title" >
                                 <h1 className="game-name">{this.props.game_details[0].name}</h1>
                                 {this.props.game_details[0].genreNames[0] !== " " ? 
                                 this.props.game_details[0].genreNames[0].map((item,index)=> 
                                     <h3 key={index} >{item}</h3>                
                                 ) :null}
-                            </Col>
-                            <FullWidthTabs />
-                        </Row>
-                        <Row>
-                           
-                        <Col> <h3>{this.props.game_details[0].storyline}</h3></Col>
-                        </Row> 
 
+                                <FullWidthTabs storyline={this.props.game_details[0].storyline} summary={this.props.game_details[0].summary} />
+                            </Grid >
+
+                            <Grid item xs={6} sm={3} style={{paddingLeft: '25%', alignItems:'center'}}>
+                              <div style={{alignItems:'center', tex:'center'}}>
+                                <Circle 
+                                    progress={this.props.game_details[0].total_rating.toFixed(2)} 
+                                    size={150}
+                                    lineWidth={25}
+                                  />
+                              
+                              </div>
+                               
+                             </Grid > 
+                        </Grid >
                        
+
+                        
                         </div>
                         : null
-                        } */}
+                        }
                     </Container>
             
             </div>
@@ -171,7 +179,6 @@ class Game_Details extends Component {
 }
  
 const mapStateToProps = (state) => {
-  console.log(state);
     return {
         game_details: state.games.Game_details
     }

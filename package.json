@@ -19,6 +19,8 @@
     "query-string": "^6.12.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
+    "react-circle": "^1.1.1",
+    "react-circular-progressbar": "^2.0.3",
     "react-dom": "^16.13.1",
     "react-icons": "^3.10.0",
     "react-multi-carousel": "^2.5.5",

@@ -196,7 +196,11 @@ async function fetachGameByName(name) {
 // ============== Fecthing games =====================================================
 async function fetchGameByGameId(id) {
   const response = await igdb(API_KEY)
-        .fields(['name', 'involved_companies', 'platforms','storyline','summary', 'cover', 'genres', 'popularity', 'screenshots', 'total_rating'])
+        .fields(
+          ['name', 'involved_companies', 'platforms','storyline','summary', 
+          'cover', 'genres', 'popularity', 'screenshots', 'total_rating',
+          'url', 'videos', 'websites'
+        ])
         .where(`id = ${id}`)
         .request('/games');
 

@@ -39,7 +39,7 @@ export default function GameCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button style={{borderRadius: '20px'}} variant="outlined" href={`/game_details/?id=${props.item.id}`}>Game Details</Button>
+        <Button color={"secondary"} style={{borderRadius: '20px'}} variant="outlined" href={`/game_details/?id=${props.item.id}`}>Game Details</Button>
       </CardActions>
     </Card>
   );
