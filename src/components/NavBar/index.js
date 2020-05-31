@@ -1,50 +1,9 @@
-// import React from 'react';
-// import { Navbar, Nav, NavDropdown, Form, FormControl,Button } from 'react-bootstrap'
-//   import { Link } from 'react-router';
-
-
-// const MainNav = () => {
-//     return ( 
-//             <Navbar bg="light" expand="lg" fixed="top">
-//             <Navbar.Brand href="/">Game Finder</Navbar.Brand>
-//             <Navbar.Toggle aria-controls="basic-navbar-nav" />
-//             <Navbar.Collapse id="basic-navbar-nav">
-//                 <Nav className="mr-auto">
-//                     <NavDropdown title="Game Types" id="basic-nav-dropdown">
-//                         <NavDropdown.Item href="/pc_game">PC Games</NavDropdown.Item>
-//                         <NavDropdown.Item href="/ps4_game">PS4 Games</NavDropdown.Item>
-//                         <NavDropdown.Item href="/xbox">Xbox Games</NavDropdown.Item>
-//                         <NavDropdown.Divider />
-//                         <NavDropdown.Item href="/">All Games</NavDropdown.Item>
-//                     </NavDropdown>
-//                 </Nav>
-//                 <Form inline>
-//                 <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-//                 <Button variant="outline-success">Search</Button>
-//                 </Form>
-//             </Navbar.Collapse>
-//             </Navbar>
-
-//     );
-// }
- 
-// export default MainNav;
 import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+
+import {
+  MenuItem, Container, Menu,Grid, Toolbar, AppBar, Switch, InputBase, Typography, IconButton, fade, makeStyles
+}from '@material-ui/core' 
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import Grid from '@material-ui/core/Grid'
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Container from '@material-ui/core/Container';
 import TaggleMenu from './manu';
 import {Link} from 'react-router-dom'
 
@@ -112,13 +71,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MainNav() {
+export default function MainNav(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const preventDefault = (event) => event.preventDefault();
-
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -144,6 +102,7 @@ export default function MainNav() {
 
   return (
     <div className={classes.grow} >
+      {console.log(props)}
       <AppBar position="fixed">
           <Container>
             <Toolbar>
@@ -179,6 +138,7 @@ export default function MainNav() {
             <TaggleMenu />
           
             </Toolbar>
+            <Switch onChange={props.handler.handler} />
         </Container>
       </AppBar>
         {renderMenu}

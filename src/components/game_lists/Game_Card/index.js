@@ -12,11 +12,10 @@ const useStyles = makeStyles({
     root: {
         margin: 10,
 
-        height:'100%',
-         borderRadius: '20px'
+        borderRadius: '20px'
       },
       media: {
-        height: '100px',
+        height: '300px',
         paddingTop: '100%', // 16:9
         borderTopRadius: '25px'
       },
@@ -27,7 +26,6 @@ export default function GameCard(props) {
 
   return (
     <Card className={classes.root} >
-             {console.log(props)}
       <CardActionArea>
         <CardMedia
           className={classes.media}
@@ -41,7 +39,7 @@ export default function GameCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button style={{borderRadius: '20px'}} variant="outlined" color="primary" href={`/game_details/?id=${props.item.id}`}>Game Details</Button>
+        <Button style={{borderRadius: '20px'}} variant="outlined" href={`/game_details/?id=${props.item.id}`}>Game Details</Button>
       </CardActions>
     </Card>
   );
