@@ -7,12 +7,9 @@ const Home  = () => {
     return ( 
         <div>
             <MainNav />
-            <Slider />
+            {/* <Slider /> */}
             <Game_Lists />
-        </div>
-   
-
-    
+        </div> 
      );
 }
  

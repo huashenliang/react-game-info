@@ -20,8 +20,8 @@ class Slider extends Component {
     render() { 
    
         return ( 
-      
-                <Carousel >
+            <Container >
+                  <Carousel >
                 {this.props.games_slider !== undefined 
                 ? this.props.games_slider.map((Item, index) => 
                         
@@ -40,6 +40,9 @@ class Slider extends Component {
 
                 : null}
                 </ Carousel>
+
+            </Container>
+              
      
            
         )
