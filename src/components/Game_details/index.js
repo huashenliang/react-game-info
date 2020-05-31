@@ -15,9 +15,6 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-
-
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -107,7 +104,6 @@ function FullWidthTabs() {
 }
 
 class Game_Details extends Component {
-    state = { }
     
     useStyles = makeStyles((theme) => ({
         root: {
@@ -127,6 +123,7 @@ class Game_Details extends Component {
     render() { 
         return ( 
             <div>
+              {console.log(this.props)}
                 {this.props.game_details ? 
                 <div className="parallax-container">
                     <div className="parallax-background">
@@ -140,8 +137,7 @@ class Game_Details extends Component {
                 
       
                 <Container  className="gamepage-header-info">
-                        <MainNav />
-                        {this.props.game_details ? 
+                      {/* {this.props.game_details ? 
                         <div>
                        <Row style={{paddingTop:"15%"}}>
                             <Col xs={6} md={4}>
@@ -164,9 +160,8 @@ class Game_Details extends Component {
                        
                         </div>
                         : null
-                        }
+                        } */}
                     </Container>
-
             
             </div>
 
@@ -176,6 +171,7 @@ class Game_Details extends Component {
 }
  
 const mapStateToProps = (state) => {
+  console.log(state);
     return {
         game_details: state.games.Game_details
     }

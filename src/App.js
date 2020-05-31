@@ -25,18 +25,17 @@ function App() {
     
 
     return (
-  
-      <Switch>
-          <ThemeProvider theme={darkMode ? darkTheme :lightTheme}> 
-          <CssBaseline />
-          <Route path="/game_details" component={Game_Details} />
-          <Route path='/pc_games' component={PC_Game}/>
-          <Route path="/">
-            <Home handler={handler}/>
-          </Route>
-            </ThemeProvider>
-        </Switch>
 
+        <ThemeProvider theme={darkMode ? darkTheme :lightTheme}> 
+            <CssBaseline />
+            <Switch>
+              <Route path="/game_details" exact component={Game_Details} />
+              <Route path='/pc_games' component={PC_Game}/>
+              <Route path="/">  <Home handler={handler} /></Route>
+            </Switch>
+        </ThemeProvider>
+
+      
 
     );
 }

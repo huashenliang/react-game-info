@@ -102,7 +102,6 @@ export default function MainNav(props) {
 
   return (
     <div className={classes.grow} >
-      {console.log(props)}
       <AppBar position="fixed">
           <Container>
             <Toolbar>
@@ -136,9 +135,10 @@ export default function MainNav(props) {
                 </div>
             </Grid>
             <TaggleMenu />
-          
+            {props.handler ?  <Switch onChange={props.handler} /> :null }
             </Toolbar>
-            <Switch onChange={props.handler.handler} />
+    
+         
         </Container>
       </AppBar>
         {renderMenu}
