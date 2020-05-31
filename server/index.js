@@ -161,6 +161,25 @@ app.get('/api/getCompanies/', async (req,res) => {
     res.send(data);
   }
 });
+
+// ============== Fecthing Websites =====================================================
+async function fetachWebsites(id) {
+  const response = await igdb(API_KEY)
+        .fields(['category', 'url'])
+        .where(`id = (${id})`)
+        .request('/websites');
+  return response.data
+}
+
+app.get('/api/getWebsites/', async (req,res) => {
+  let id = req.query.id ? req.query.id  : 0;
+  var data = await fetachWebsites(id)
+  console.log(data)
+  if(data){
+    res.send(data);
+  }
+});
+
 // ============== Search Game by Name =====================================================
 async function fetachGameByName(name) {
   const response = await igdb(API_KEY)
@@ -247,12 +266,24 @@ async function fetchGameByGameId(id) {
             return " "
           }
         })
+
+        const websitesPromises = response.data.map(async data => {
+
+          if(data.websites){
+            id= data.websites;
+            const res = await axios.get(`${API_URL}/getWebsites/?id=${id}`)
+            return res.data
+          }else{
+            return " "
+          }
+        })
     
         const coverResults = await Promise.all(coverPromises);
         const genreNames =  await Promise.all(genresPromises);
         const platformNames = await Promise.all(platfromPromises);
         const screenshot_id = await Promise.all(screenshotPromises);
- 
+        const websites_URLs = await Promise.all(websitesPromises);
+
         const modifiedData = response.data.map((data, index) => {
           image_id = coverResults[index]
           return{
@@ -260,7 +291,8 @@ async function fetchGameByGameId(id) {
             image_id,
             genreNames,
             platformNames,
-            screenshot_id
+            screenshot_id,
+            websites_URLs
           }
         })
       
